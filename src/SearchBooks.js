@@ -7,9 +7,18 @@ class SearchBooks extends Component {
   state = { query: '', books: [] }
 
   updateQuery = (query) => {
+    const myBooks = this.props.books
     this.setState({query: query.trim()})
     if(this.state.query.length > 1){
       BooksAPI.search(this.state.query).then(data => {
+        data.map(book => {
+          const bookInBooks = myBooks.filter(b => b.id === book.id)[0]
+          if(bookInBooks) {
+            book.shelf = bookInBooks.shelf 
+          }
+          return book
+        })
+
         this.setState({ books: data })
       })
     } else {
