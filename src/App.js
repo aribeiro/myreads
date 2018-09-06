@@ -28,9 +28,6 @@ class BooksApp extends Component {
     const read = books.filter(book => book.shelf === "read")
     return (
       <div className="app">
-        <Route path="/search" render={ () => (
-          <SearchBooks books={books}/>
-        )} />
         <Route exact path="/" render={ () =>  (
           <div className="list-books">
             <div className="list-books-title">
@@ -47,6 +44,12 @@ class BooksApp extends Component {
               <Link to="/search">Add a book</Link>
             </div>
           </div>
+        )} />
+        <Route path="/search" render={ () => (
+          <SearchBooks 
+            books={books} 
+            onChangeShelf={this.changeShelf.bind(this)} 
+          />
         )} />
       </div>
     )

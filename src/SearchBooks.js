@@ -19,12 +19,6 @@ class SearchBooks extends Component {
 
   render(){
     const { query, books } = this.state
-    let showingBooks
-    if(books){
-      showingBooks = books
-    }else{
-      showingBooks = []
-    }
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -39,9 +33,11 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {showingBooks.map(book => (
+            {books.map(book => (
               <li key={book.id}>
-                <Book book={book} />
+                <Book book={book}
+                  onChangeShelf={this.props.onChangeShelf} 
+                />
               </li>
             ))}
           </ol>
