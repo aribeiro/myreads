@@ -16,8 +16,16 @@ class BooksApp extends Component {
   }
   
   changeShelf(book, shelf) {
+    const { books } = this.state
     BooksAPI.update(book, shelf).then((data) => {
-      BooksAPI.getAll().then((data) => this.setState({ books: data }))
+      const bookInBooks = books.find(b => b.id === book.id)
+
+      if( bookInBooks ) {
+        bookInBooks.shelf = shelf
+      } else {
+        BooksAPI.get(book.id).then(data => books.push(data))
+      }
+      this.setState({ books })
     })
   }
 
