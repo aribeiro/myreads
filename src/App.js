@@ -14,6 +14,12 @@ class BooksApp extends Component {
       this.setState({ books: data })
     })
   }
+  
+  changeShelf(book, shelf) {
+    BooksAPI.update(book, shelf).then((data) => {
+      BooksAPI.getAll().then((data) => this.setState({ books: data }))
+    })
+  }
 
   render() {
     const { books } = this.state
@@ -32,9 +38,9 @@ class BooksApp extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title="Currenly Reading" books={currentlyReading} />
-                <BookShelf title="Want to Read" books={wantToRead}  />
-                <BookShelf title="Read" books={read}  />
+                <BookShelf title="Currenly Reading" books={currentlyReading} onChangeShelf={this.changeShelf.bind(this)} />
+                <BookShelf title="Want to Read" books={wantToRead} onChangeShelf={this.changeShelf.bind(this)} />
+                <BookShelf title="Read" books={read} onChangeShelf={this.changeShelf.bind(this)} />
               </div>
             </div>
             <div className="open-search">
