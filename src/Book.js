@@ -1,14 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class Book extends Component {
-  handleChangeShelf = (e) => {
-    if(this.props.onChangeShelf){
-      this.props.onChangeShelf(this.props.book, e.target.value)
-    }
-  }
-
-  render(){
-    const { book } = this.props
+const Book = ({ book, onChangeShelf }) => {
+    const selectedShelf = book.shelf || 'none'
+    const authors = book.author && book.author.join(", ")
     return (
       <div className="book">
         <div className="book-top">
@@ -16,7 +10,7 @@ class Book extends Component {
               height: 193,
               backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
           <div className="book-shelf-changer">
-            <select value={ book.shelf || 'none' } onChange={this.handleChangeShelf}>
+            <select value={selectedShelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -26,9 +20,8 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.author && book.author.join(", ")}</div>
+        <div className="book-authors">{authors}</div>
       </div>
     )
-  }
 }
 export default Book
