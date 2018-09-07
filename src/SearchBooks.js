@@ -7,24 +7,32 @@ class SearchBooks extends Component {
   state = { query: '', books: [] }
 
   updateQuery = (query) => {
-    const myBooks = this.props.books
-    this.setState({query: query.trim()})
-    if(this.state.query.length > 1){
-      BooksAPI.search(this.state.query).then(data => {
-        data.map(book => {
-          const bookInBooks = myBooks.filter(b => b.id === book.id)[0]
-          if(bookInBooks) {
-            book.shelf = bookInBooks.shelf 
-          }
-          return book
-        })
-
-        this.setState({ books: data })
-      })
-    } else {
-      this.setState({books: []})
+    this.setState({query})
+    if(query.trim().length > 1){
+      this.searchBooks(query.trim())
     }
   }
+
+  searchBooks = (query) => {
+    const { books} = this.props
+    BooksAPI.search(query).then(data => {
+      if(data.error === "empty query"){
+        this.setState({books: []})
+      } else {
+        this.setState({books: this.appendShelf(data, books)})
+      }
+    })
+  }
+
+  appendShelf = (books, booksInShelfs) => (
+    books.map(book => {
+      const bookInShelf = booksInShelfs.find(b => b.id === book.id)
+      if(bookInShelf) {
+        book.shelf = bookInShelf.shelf
+      }
+      return book
+    })
+  )
 
   render(){
     const { query, books } = this.state
@@ -33,9 +41,9 @@ class SearchBooks extends Component {
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
-            <input 
-              type="text" 
-              placeholder="Search by title or author" 
+            <input
+              type="text"
+              placeholder="Search by title or author"
               value={query}
               onChange={(event) => this.updateQuery(event.target.value)}/>
           </div>
@@ -45,7 +53,7 @@ class SearchBooks extends Component {
             {books.map(book => (
               <li key={book.id}>
                 <Book book={book}
-                  onChangeShelf={this.props.onChangeShelf} 
+                  onChangeShelf={this.props.onChangeShelf}
                 />
               </li>
             ))}
