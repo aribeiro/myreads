@@ -1,6 +1,6 @@
 # MyReads Project
 
-This project is my final project for Udacity Nanodegree Second Module React Fundaments (Fundamentos do React)
+This project is my final project for Udacity Nanodegree Second Module React Fundamentals (Fundamentos do React)
 
 The goal for this project is create an app using React with the follow requisits:
 
