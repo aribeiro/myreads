@@ -2,13 +2,16 @@ import React from 'react'
 
 const Book = ({ book, onChangeShelf }) => {
     const selectedShelf = book.shelf || 'none'
-    const authors = book.author && book.author.join(", ")
+    const authors = book.authors && book.authors.join(", ")
+    const url = book.imageLinks && book.imageLinks.smallThumbnail ?
+      book.imageLinks.smallThumbnail : ''
+
     return (
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={{ width: 128,
               height: 193,
-              backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+              backgroundImage: `url(${url})` }}></div>
           <div className="book-shelf-changer">
             <select value={selectedShelf} onChange={(event) => onChangeShelf(book, event.target.value)}>
               <option value="move" disabled>Move to...</option>
