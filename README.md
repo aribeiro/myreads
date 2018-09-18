@@ -9,7 +9,7 @@ The goal for this project is create an app using React with the follow requisits
     - Want to read
     - Read
   - Also it must to have a Page where I can search the books from a provided API
-    - It must to use the searching terms to filter results form the API and return a list of books
+    - It must to use the searching terms to filter results from the API and return a list of books
     - It must to include the Shelf the book is included if the book is already inserted in one of my current books list
   - It must to allow moving book between my current books lists, and include new books from the Search in my current books lists
 
