@@ -1,20 +1,27 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { debounce } from 'throttle-debounce';
+
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class SearchBooks extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { query: '', books: [] }
+        this.debounceSearchBooks = debounce(500, this.searchBooks);
+    }
+
     static propTypes = {
         books: PropTypes.array.isRequired,
         onChangeShelf: PropTypes.func.isRequired
     }
-    state = { query: '', books: [] }
 
     updateQuery = (query) => {
         this.setState({query})
         if(query.trim().length > 1){
-            this.searchBooks(query.trim())
+            this.debounceSearchBooks(query.trim())
         }
     }
 
