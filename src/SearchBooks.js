@@ -26,10 +26,12 @@ class SearchBooks extends Component {
     }
 
     searchBooks = (query) => {
-        const { books} = this.props
+        const { books } = this.props
         BooksAPI.search(query).then(data => {
-            if(data.error !== "empty query"){
+            if(data !== undefined && data.error !== "empty query"){
                 this.setState({books: this.appendShelf(data, books)})
+            } else {
+                this.setState({books: []})
             }
         })
     }
